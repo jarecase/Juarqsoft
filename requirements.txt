@@ -3,3 +3,4 @@ flask_expects_json==1.7.0
 Flask_PyMongo==2.3.0
 pymongo==4.1.1
 requests==2.27.1
+dnspython==2.2.1
