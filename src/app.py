@@ -1,4 +1,3 @@
-from urllib import response
 from flask import Flask, Response, request
 from bson import json_util
 from bson.objectid import ObjectId
@@ -11,12 +10,6 @@ app = Flask(__name__)
 app.config['MONGO_URI'] = 'mongodb+srv://jrcamacho:jrcamacho@cluster0.bxmeh.mongodb.net/Juarqsoft'
  
 mongo = PyMongo(app)
-
-@app.route('/api/juego', methods=['POST'])
-@expects_json(NGValidadoresTipos.Juego())
-def crearjuego():
-    id = mongo.db.juego.insert_one(request.json)
-    return str(id)
 
 @app.route('/api/juego', methods=['GET'])
 def consultarjuegos():
@@ -34,6 +27,25 @@ def consultarjuego(id):
 def eliminarjuego(id):
     juego = mongo.db.juego.delete_one({'_id' : ObjectId(id)})
     return str(juego.deleted_count)
+
+@app.route('/api/juego', methods=['POST'])
+@expects_json(NGValidadoresTipos.Juego())
+def crearjuego():
+    juegoPorNombre = mongo.db.juego.find_one({'nombre' : request.json['nombre']})
+    if juegoPorNombre == None:
+        juego = mongo.db.juego.insert_one(request.json)
+        return str(juego.inserted_id)
+    else:
+        return 'ya existe un juego con el nombre ' + request.json['nombre']
+        
+
+@app.route('/api/juego/<id>', methods=['PUT'])
+@expects_json(NGValidadoresTipos.Juego())
+def actualizarjuego(id):
+    validarnombre = mongo.db.juego.find_one({'nombre' : ObjectId(id)})
+
+    id = mongo.db.juego.update_one({'_id' : ObjectId(id)}, request.json)
+    return str(id)
 
 @app.errorhandler(404)
 def not_found(error=None):
