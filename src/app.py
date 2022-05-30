@@ -37,7 +37,7 @@ def crearjuego():
         return str(juego.inserted_id)
     else:
         return 'ya existe un juego con el nombre ' + request.json['nombre']
-        
+         
 
 @app.route('/api/juego/<id>', methods=['PUT'])
 @expects_json(NGValidadoresTipos.Juego())
