@@ -43,7 +43,7 @@ def crearjuego():
 @expects_json(NGValidadoresTipos.Juego())
 def actualizarjuego(id):
     validarnombre = mongo.db.juego.find_one({'nombre' : ObjectId(id)})
-
+ 
     id = mongo.db.juego.update_one({'_id' : ObjectId(id)}, request.json)
     return str(id)
 
