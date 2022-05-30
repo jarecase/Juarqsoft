@@ -42,10 +42,17 @@ def crearjuego():
 @app.route('/api/juego/<id>', methods=['PUT'])
 @expects_json(NGValidadoresTipos.Juego())
 def actualizarjuego(id):
-    validarnombre = mongo.db.juego.find_one({'nombre' : ObjectId(id)})
- 
-    id = mongo.db.juego.update_one({'_id' : ObjectId(id)}, request.json)
-    return str(id)
+    juegoPorNombre = mongo.db.juego.find_one({'nombre' : request.json['nombre']})
+    if juegoPorNombre == None:
+        juego = mongo.db.juego.update_one({'_id' : ObjectId(id)}, {'$set' : request.json})
+        return str(juego.modified_count)
+    else:
+        print (juegoPorNombre['_id'])
+        if str(juegoPorNombre['_id']) == str(id):
+            juego = mongo.db.juego.update_one({'_id' : ObjectId(id)}, {'$set' : request.json} )
+            return str(juego.modified_count)
+        else:
+            return 'ya existe un juego con el nombre ' + request.json['nombre']
 
 @app.errorhandler(404)
 def not_found(error=None):
