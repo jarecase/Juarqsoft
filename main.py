@@ -20,7 +20,7 @@ schema = {
   },
   "required": ["nombre", "descripcion", "dificultad"]
 }
-
+ 
 @app.route('/api/juego', methods=['POST'])
 @expects_json(schema)
 def post():
