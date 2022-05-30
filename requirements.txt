@@ -1,3 +1,4 @@
 pip==22.0.4
 requests==2.27.1
 flask==2.1.2
+bson==3.9
