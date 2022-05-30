@@ -27,7 +27,7 @@ def consultarjuego(id):
 def eliminarjuego(id):
     juego = mongo.db.juego.delete_one({'_id' : ObjectId(id)})
     return str(juego.deleted_count)
-  
+   
 @app.route('/api/juego', methods=['POST'])
 @expects_json(NGValidadoresTipos.Juego())
 def crearjuego():
