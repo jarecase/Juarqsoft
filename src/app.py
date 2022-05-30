@@ -7,7 +7,7 @@ from Negocio.NGValidadoresTipos import NGValidadoresTipos
 from flask_pymongo import PyMongo
 
 app = Flask(__name__)
-
+ 
 app.config['MONGO_URI'] = 'mongodb+srv://jrcamacho:jrcamacho@cluster0.bxmeh.mongodb.net/Juarqsoft'
  
 mongo = PyMongo(app)
