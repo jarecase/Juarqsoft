@@ -4,56 +4,69 @@ from bson.objectid import ObjectId
 from flask_expects_json import expects_json
 from Negocio.NGValidadoresTipos import NGValidadoresTipos
 from flask_pymongo import PyMongo
+import requests
 import os
 
 app = Flask(__name__)
  
 app.config['MONGO_URI'] = 'mongodb+srv://jrcamacho:jrcamacho@cluster0.bxmeh.mongodb.net/Juarqsoft'
- 
+API = 'https://62859626f0e8f0bb7c063948.mockapi.io/api/v1/Juego'
+
 mongo = PyMongo(app)
 
 @app.route('/api/juego', methods=['GET'])
 def consultarjuegos():
-    juegos = mongo.db.juego.find()
-    respuesta = json_util.dumps(juegos)
+    juegos = requests.get(API, {}, timeout=5)
+    #juegos = mongo.db.juego.find()
+    respuesta =  json_util.dumps(juegos.json())
     return Response(respuesta, mimetype='application/json')
 
 @app.route('/api/juego/<id>', methods=['GET'])
 def consultarjuego(id):
-    juego = mongo.db.juego.find_one({'_id' : ObjectId(id)})
-    respuesta = json_util.dumps(juego)
+    juegos = requests.get(API + '/' + id, {}, timeout=5)
+    #juego = mongo.db.juego.find_one({'_id' : ObjectId(id)})
+    respuesta =  json_util.dumps(juegos.json())
     return Response(respuesta, mimetype='application/json')
 
 @app.route('/api/juego/<id>', methods=['DELETE'])
 def eliminarjuego(id):
-    juego = mongo.db.juego.delete_one({'_id' : ObjectId(id)})
-    return str(juego.deleted_count)
+    juegos = requests.delete(API + '/' + id, data ={'key':'value'}, timeout=5)
+    #juego = mongo.db.juego.delete_one({'_id' : ObjectId(id)})
+    #return str(juego.deleted_count)
+    respuesta =  json_util.dumps(juegos.json())
+    return Response(respuesta, mimetype='application/json')
     
 @app.route('/api/juego', methods=['POST'])
 @expects_json(NGValidadoresTipos.Juego())
 def crearjuego():
-    juegoPorNombre = mongo.db.juego.find_one({'nombre' : request.json['nombre']})
-    if juegoPorNombre == None:
-        juego = mongo.db.juego.insert_one(request.json)
-        return str(juego.inserted_id)
-    else:
-        return 'ya existe un juego con el nombre ' + request.json['nombre']
+    juegos = requests.post(API, data =request.json, timeout=5)
+    #juegoPorNombre = mongo.db.juego.find_one({'nombre' : request.json['nombre']})
+    #if juegoPorNombre == None:
+    #    juego = mongo.db.juego.insert_one(request.json)
+    #    return str(juego.inserted_id)
+    #else:
+    #    return 'ya existe un juego con el nombre ' + request.json['nombre']
+    respuesta =  json_util.dumps(juegos.json())
+    return Response(respuesta, mimetype='application/json')
          
 
 @app.route('/api/juego/<id>', methods=['PUT'])
 @expects_json(NGValidadoresTipos.Juego())
 def actualizarjuego(id):
-    juegoPorNombre = mongo.db.juego.find_one({'nombre' : request.json['nombre']})
-    if juegoPorNombre == None:
-        juego = mongo.db.juego.update_one({'_id' : ObjectId(id)}, {'$set' : request.json})
-        return str(juego.modified_count)
-    else:
-        print (juegoPorNombre['_id'])
-        if str(juegoPorNombre['_id']) == str(id):
-            juego = mongo.db.juego.update_one({'_id' : ObjectId(id)}, {'$set' : request.json} )
-            return str(juego.modified_count)
-        else:
-            return 'ya existe un juego con el nombre ' + request.json['nombre']
+    juegos = requests.put(API + '/' + id, data =request.json, timeout=5)
+    #juegoPorNombre = mongo.db.juego.find_one({'nombre' : request.json['nombre']})
+    #if juegoPorNombre == None:
+    #    #juego = mongo.db.juego.update_one({'_id' : ObjectId(id)}, {'$set' : request.json})
+    #    return str(juego.modified_count)
+    #else:
+    #    print (juegoPorNombre['_id'])
+    #    if str(juegoPorNombre['_id']) == str(id):
+    #        juego = mongo.db.juego.update_one({'_id' : ObjectId(id)}, {'$set' : request.json} )
+    #        return str(juego.modified_count)
+    #    else:
+    #        return 'ya existe un juego con el nombre ' + request.json['nombre']
+    respuesta =  json_util.dumps(juegos.json())
+    return Response(respuesta, mimetype='application/json')
 
 @app.errorhandler(404)
 def not_found(error=None):
