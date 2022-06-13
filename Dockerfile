@@ -8,5 +8,5 @@ ENV FLASK_ENV development
 ENV PORT $PORT
 
 #CMD [ "python3", "-m", "flask", "run", "--host=0.0.0.0"]
-ENTRYPOINT["python3"]
-CMD["src/app.py"]
+ENTRYPOINT ["python3"]
+CMD ["src/app.py"]
