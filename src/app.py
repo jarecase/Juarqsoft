@@ -79,3 +79,8 @@ def not_found(error=None):
 port = os.environ.get("PORT", 5000)
 #print('get port %d' % port)
 
+
+
+if __name__ == '__main__':
+    # Threaded option to enable multiple instances for multiple user access support
+    app.run(threaded=True, port=5000)
