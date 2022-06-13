@@ -14,6 +14,10 @@ API = 'https://62859626f0e8f0bb7c063948.mockapi.io/api/v1/Juego'
 
 mongo = PyMongo(app)
 
+@app.route('/')
+def home():
+    return 'hello'
+
 @app.route('/api/juego', methods=['GET'])
 def consultarjuegos():
     juegos = requests.get(API, {}, timeout=5)
