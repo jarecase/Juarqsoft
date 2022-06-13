@@ -82,7 +82,7 @@ def not_found(error=None):
         'message': 'Recurso no encontrado ' + request.url,
         'status':404
     }
-    return menssage
+    return menssage 
 
 port = os.environ.get("PORT", 5000)
 #print('get port %d' % port)
