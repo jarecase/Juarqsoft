@@ -16,10 +16,12 @@ mongo = PyMongo(app)
 
 @app.route('/')
 def home():
+    
     return 'hello'
 
 @app.route('/api/juego', methods=['GET'])
 def consultarjuegos():
+    app.logger.info('Mostrando los juegos disponibles')
     juegos = requests.get(API, {}, timeout=5)
     #juegos = mongo.db.juego.find()
     respuesta =  json_util.dumps(juegos.json())
@@ -35,6 +37,7 @@ def consultarjuego(id):
 @app.route('/api/juego/<id>', methods=['DELETE'])
 def eliminarjuego(id):
     juegos = requests.delete(API + '/' + id, data ={'key':'value'}, timeout=5)
+    app.logger.warning('Se ha eliminado el juego ' + id)
     #juego = mongo.db.juego.delete_one({'_id' : ObjectId(id)})
     #return str(juego.deleted_count)
     respuesta =  json_util.dumps(juegos.json())
@@ -74,6 +77,7 @@ def actualizarjuego(id):
 
 @app.errorhandler(404)
 def not_found(error=None):
+    app.logger.error('Recurso no encontrado ' + request.url)
     menssage={
         'message': 'Recurso no encontrado ' + request.url,
         'status':404
@@ -82,7 +86,6 @@ def not_found(error=None):
 
 port = os.environ.get("PORT", 5000)
 #print('get port %d' % port)
-
 
 
 if __name__ == '__main__':
