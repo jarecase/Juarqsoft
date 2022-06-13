@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\Reinaldojcs\Desktop\Juarqsoft-API\env"
+VIRTUAL_ENV="C:\Users\Reinaldojcs\Documents\GitHub\Juarqsoft\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
