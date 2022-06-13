@@ -2,7 +2,7 @@ from flask import Flask, Response, request
 from bson import json_util
 from bson.objectid import ObjectId
 from flask_expects_json import expects_json
-from Negocio.NGValidadoresTipos import NGValidadoresTipos
+from NGValidadoresTipos import NGValidadoresTipos
 from flask_pymongo import PyMongo
 import requests
 import os
