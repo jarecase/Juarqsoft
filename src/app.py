@@ -62,5 +62,3 @@ def not_found(error=None):
     }
     return menssage
 
-if __name__ == "__main__":
-    app.run(debug=True)

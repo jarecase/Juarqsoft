@@ -1,0 +1,9 @@
+env\Scripts\activate
+$env:FLASK_APP='src/app.py' 
+setx FLASK_ENV "development"
+flask run
+pip3 freeze > requirements.txt
+
+docker build -t juarqsoft-api .     
+docker run -it --rm  -p 5000:5000 --name run-juarqsoft-api juarqsoft-api
+docker stop run-juarqsoft-api      
