@@ -7,3 +7,12 @@ pip3 freeze > requirements.txt
 docker build -t juarqsoft-api .     
 docker run -it --rm  -p 5000:5000 --name run-juarqsoft-api juarqsoft-api
 docker stop run-juarqsoft-api      
+docker tag a31040f93fce jarecase/juarqsoft-api:version1
+docker push jarecase/juarqsoft-api:version1
+
+heroku login
+heroku git_remote -a juarqsoft-api
+heroku container:login
+heroku stack:set container
+heroku container:push web 
+heroku container:release web
