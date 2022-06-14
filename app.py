@@ -1,5 +1,5 @@
 from flask import Flask, Response, request
-from flasgger import Swagger, LazyString, LazyJSONEncoder
+from flasgger import Swagger, LazyJSONEncoder
 from flasgger import swag_from
 from bson import json_util
 from flask_expects_json import expects_json
